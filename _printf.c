@@ -69,9 +69,7 @@ int _printf(const char *format, ...)
 
 					while (*s)
 					{
-						putchar(*s);
-						count++;
-						s++;
+						printf("%s", s);
 					}
 					break;
 				}
