@@ -1,15 +1,20 @@
 #include "main.h"
+
+/* Function Declarations */
+void cleanup(va_list args, char *output);
+int _printf(const char *format, ...);
+
+/* Function Definitions */
+
 /**
- *
- *
+ * cleanup - Peforms cleanup operations for _printf.
+ * @args: A va_list of arguments provided to _printf.
+ * @output: A char pointer containing the output.
  */
 void cleanup(va_list args, char *output)
 {
-	if (va_end != NULL)
-	{
-		va_end(args);
-		fwrite(output, 1, strlen(output), stdout);
-	}
+	va_end(args);
+	fwrite(output, 1, strlen(output), stdout);
 	free(output);
 }
 /**
@@ -20,60 +25,51 @@ void cleanup(va_list args, char *output)
  */
 int _printf(const char *format, ...)
 {
-	const char *p;
-	int count;
-
+	int i;
 	va_list args;
 
 	va_start(args, format);
 
-	count = 0;
-
-	for (p = format; *p; ++p)
+	for (i = 0; format[i]; i++)
 	{
-		if (*p != '%')
+		if (format[i] != '%')
 		{
-			putchar(*p);
-			count++;
+			putchar(format[i]);
 			continue;
 		}
-		++p;
-		if (*p == '\0')
+		if (format[i] == '\0')
 		{
 			break;
 		}
-		if (*p == '%')
+		if (format[i] == '%')
 		{
 			putchar('%');
-			count++;
 			continue;
 		}
 
-		switch (*p)
+		switch (format[++i])
 		{
-
 			case 'c':
 				{
 					char c = (char) va_arg(args, int);
 
 					putchar(c);
-					count++;
 					break;
 				}
 			case 's':
 				{
 					char *s = va_arg(args, char *);
 
-					putchar(*s);
+					printf("%s", s);
 					break;
 				}
 			default:
 				{
-					printf("%%%c", *p);
+					printf("%%%c", format[i]);
 					break;
 				}
 		}
 	}
 	va_end(args);
-	return (count);
+	return (format[i]);
 }
