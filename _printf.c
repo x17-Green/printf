@@ -13,9 +13,9 @@ int _printf(const char *format, ...);
  */
 void cleanup(va_list args, char *output)
 {
-    va_end(args);
-    fwrite(output, 1, strlen(output), stdout);
-    free(output);
+	va_end(args);
+	fwrite(output, 1, strlen(output), stdout);
+	free(output);
 }
 /**
  * _printf - Outputs a formatted string.
@@ -23,16 +23,16 @@ void cleanup(va_list args, char *output)
  *
  * Return: The number of characters printed.
  */
-__attribute__((format(printf, 1, 2)))
 int _printf(const char *format, ...)
 {
 	const char *p;
 	int count;
 
-	va_list args;
-	va_start(args, format);
-
 	count = 0;
+
+	va_list args;
+
+	va_start(args, format);
 
 	for (p = format; *p; ++p)
 	{
